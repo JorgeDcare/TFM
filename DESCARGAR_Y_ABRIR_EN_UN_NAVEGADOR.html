@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Impacto del pH en el tratamiento de TAT-Cx43 sobre SB28</title>
+  <!-- ASSETS_PUBLICOS_GITHUB_CDN: recursos cargados desde https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/ -->
+  <style>
+    :root { --bg:#f5f6f8; --panel:#fff; --text:#111827; --muted:#5b626c; --line:#d8dde5; --shadow:0 10px 24px rgba(15,23,42,.10); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:Helvetica, Arial, sans-serif; }
+    .page { padding:12px; display:grid; gap:12px; }
+    .main-header { display:flex; justify-content:space-between; gap:18px; align-items:center; }
+    h1 { margin:0; font-size:clamp(24px,2.2vw,36px); line-height:1.05; }
+    .secondary-link { display:inline-flex; align-items:center; height:36px; padding:0 12px; border:1px solid #aeb7c4; border-radius:6px; background:#fff; color:#111827; text-decoration:none; font-weight:700; }
+    .video-row { display:grid; grid-template-columns:86px minmax(0,1fr); gap:10px; align-items:stretch; }
+    .video-row h2 { margin:0; writing-mode:vertical-rl; transform:rotate(180deg); text-align:center; align-self:center; font-size:24px; }
+    .video-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .video-card { min-width:0; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:8px; box-shadow:var(--shadow); }
+    .video-title { min-height:28px; display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+    .video-title strong { display:block; font-size:17px; }
+    .condition-dot { width:15px; height:15px; border-radius:3px; background:var(--condition-color); flex:0 0 auto; }
+    video { display:block; width:100%; aspect-ratio:1.35/1; object-fit:cover; background:transparent; border:5px solid var(--condition-color); border-radius:8px; }
+    .controls { display:grid; grid-template-columns:auto auto auto minmax(220px,1fr) auto auto; align-items:center; gap:10px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:8px 10px; box-shadow:var(--shadow); }
+    button, select { height:34px; border:1px solid #aeb7c4; border-radius:6px; background:#fff; color:var(--text); font:600 14px Helvetica, Arial, sans-serif; padding:0 10px; }
+    button.primary { background:#1f2937; color:#fff; border-color:#1f2937; min-width:100px; }
+    input[type=range] { width:100%; accent-color:#1f2937; }
+    .time-readout { min-width:120px; font-weight:700; text-align:right; }
+    .graph-panel { background:var(--panel); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); overflow:hidden; }
+    .graph-toolbar { min-height:48px; display:flex; justify-content:flex-start; align-items:center; gap:12px; padding:8px 12px; border-bottom:1px solid var(--line); }
+    .graph-toolbar label { display:flex; align-items:center; gap:10px; font-weight:700; }
+    #graphSelect, #gridGraphSelect { min-width:min(520px,54vw); }
+    .graph-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:10px; align-items:start; }
+    .graph-card { border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#fff; }
+    .graph-card h3 { margin:0; padding:8px 10px; border-bottom:1px solid var(--line); font-size:18px; }
+    .graph-card iframe { display:block; width:100%; height:760px; border:0; background:#fff; }
+    .missing-graph { padding:34px; color:var(--muted); text-align:center; }
+    @media(max-width:980px) {
+      .main-header { align-items:flex-start; flex-direction:column; }
+      .video-row { grid-template-columns:1fr; }
+      .video-row h2 { writing-mode:horizontal-tb; transform:none; text-align:left; }
+      .video-grid, .graph-grid { grid-template-columns:1fr; }
+      .controls { grid-template-columns:repeat(3,auto); }
+    }
+
+
+    html { scroll-behavior:smooth; }
+    body { zoom:0.67; }
+    @supports not (zoom: 1) {
+      .page { transform:scale(0.67); transform-origin:top left; width:149.253731%; }
+    }
+    .main-header { position:sticky; top:0; z-index:20; background:rgba(245,246,248,.96); padding:8px 0; }
+    .view-nav { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .view-button { cursor:pointer; }
+    .view-button.is-active { background:#1f2937; color:#fff; border-color:#1f2937; }
+    .view-section[hidden] { display:none !important; }
+    .graph-panel { overflow:visible; }
+    .graph-card { overflow:visible; }
+    .graph-card iframe { overflow:visible; }
+    #experimentos-individuales { scroll-margin-top:18px; }
+    .section-title { margin:10px 0 0; font-size:clamp(22px,1.9vw,30px); line-height:1.1; }
+    .experiment-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:10px; align-items:start; }
+    .experiment-card iframe { display:block; width:100%; height:760px; border:0; background:#fff; overflow:visible; }
+    @media(max-width:980px) { .experiment-grid { grid-template-columns:1fr; } body { zoom:1; } }
+
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="main-header">
+      <h1>Impacto del pH en el tratamiento de TAT-Cx43 sobre SB28</h1>
+      <nav class="view-nav" aria-label="Vistas"><button type="button" class="secondary-link view-button is-active" data-view-target="resumen-global">Resumen global</button><button type="button" class="secondary-link view-button" data-view-target="experimentos-individuales">Experimentos individuales</button></nav>
+    </header>
+
+    <section id="resumen-global" class="view-section active-view">
+    
+            <section class="video-row">
+              <h2>1% CO₂</h2>
+              <div class="video-grid">
+                <article class="video-card" style="--condition-color:#2B512B">
+                  <div class="video-title"><span class="condition-dot"></span><strong>∅</strong></div>
+                  <video preload="metadata" muted playsinline>
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos_webm/co2_1pct_control_Exp10_3_SB28_2_Scene_29_P9_C2_RSZ_cellpose_basic.webm" type="video/webm">
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos/co2_1pct_control_Exp10_3_SB28_2_Scene_29_P9_C2_RSZ_cellpose_basic.mp4" type="video/mp4">
+                  </video>
+                </article>
+                
+                <article class="video-card" style="--condition-color:#A64900">
+                  <div class="video-title"><span class="condition-dot"></span><strong>P3 50μM</strong></div>
+                  <video preload="metadata" muted playsinline>
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos_webm/co2_1pct_P3_50uM_Exp10_3_SB28_2_Scene_18_P21_B3_RSZ_cellpose_basic.webm" type="video/webm">
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos/co2_1pct_P3_50uM_Exp10_3_SB28_2_Scene_18_P21_B3_RSZ_cellpose_basic.mp4" type="video/mp4">
+                  </video>
+                </article>
+                
+                <article class="video-card" style="--condition-color:#432DA6">
+                  <div class="video-title"><span class="condition-dot"></span><strong>P8 50μM</strong></div>
+                  <video preload="metadata" muted playsinline>
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos_webm/co2_1pct_P8_50uM_Exp10_3_SB28_2_Scene_22_P41_B4_RSZ_cellpose_basic.webm" type="video/webm">
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos/co2_1pct_P8_50uM_Exp10_3_SB28_2_Scene_22_P41_B4_RSZ_cellpose_basic.mp4" type="video/mp4">
+                  </video>
+                </article>
+                </div>
+            </section>
+            
+            <section class="video-row">
+              <h2>5% CO₂</h2>
+              <div class="video-grid">
+                <article class="video-card" style="--condition-color:#2B512B">
+                  <div class="video-title"><span class="condition-dot"></span><strong>∅</strong></div>
+                  <video preload="metadata" muted playsinline>
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos_webm/co2_5pct_control_Exp11_2_SB28_03_Scene_11_P7_B2_RSZ_cellpose_basic.webm" type="video/webm">
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos/co2_5pct_control_Exp11_2_SB28_03_Scene_11_P7_B2_RSZ_cellpose_basic.mp4" type="video/mp4">
+                  </video>
+                </article>
+                
+                <article class="video-card" style="--condition-color:#A64900">
+                  <div class="video-title"><span class="condition-dot"></span><strong>P3 50μM</strong></div>
+                  <video preload="metadata" muted playsinline>
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos_webm/co2_5pct_P3_50uM_Exp11_3_SB28_2_Scene_19_P25_B3_RSZ_Basic.webm" type="video/webm">
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos/co2_5pct_P3_50uM_Exp11_3_SB28_2_Scene_19_P25_B3_RSZ_Basic.mp4" type="video/mp4">
+                  </video>
+                </article>
+                
+                <article class="video-card" style="--condition-color:#432DA6">
+                  <div class="video-title"><span class="condition-dot"></span><strong>P8 50μM</strong></div>
+                  <video preload="metadata" muted playsinline>
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos_webm/co2_5pct_P8_50uM_Exp11_3_SB28_2_Scene_21_P40_B4_RSZ_Basic.webm" type="video/webm">
+                    <source src="https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/videos/co2_5pct_P8_50uM_Exp11_3_SB28_2_Scene_21_P40_B4_RSZ_Basic.mp4" type="video/mp4">
+                  </video>
+                </article>
+                </div>
+            </section>
+            
+    <section class="controls" aria-label="Controles comunes de video">
+      <button id="playPause" class="primary" type="button">Reproducir</button>
+      <button id="backHour" type="button">-1 h</button>
+      <button id="forwardHour" type="button">+1 h</button>
+      <input id="timeSlider" type="range" min="0" max="1" step="0.5" value="0" aria-label="Tiempo biologico comun">
+      <div id="timeReadout" class="time-readout">0.0 h</div>
+      <select id="speedSelect" aria-label="Velocidad de reproduccion">
+        <option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.5">1.5x</option><option value="2">2x</option>
+      </select>
+    </section>
+    <section class="graph-panel">
+      <div class="graph-toolbar"><label for="graphSelect">Gráfica <select id="graphSelect"><option value="0">Area media</option>
+<option value="1">Area normalizada media</option>
+<option value="2">Esfericidad media</option>
+<option value="3">Esfericidad normalizada media</option>
+<option value="4">Velocidad media</option>
+<option value="5">Curva de supervivencia</option>
+<option value="6">Desplazamiento acumulado</option>
+<option value="7">AUC supervivencia</option></select></label></div>
+      <div class="graph-grid">
+        <article class="graph-card"><h3>1% CO2</h3><div id="graph1"></div></article>
+        <article class="graph-card"><h3>5% CO2</h3><div id="graph5"></div></article>
+      </div>
+    </section>
+    </section>
+    <section id="experimentos-individuales" class="graph-panel view-section" hidden>
+      <div class="graph-toolbar"><label for="gridGraphSelect">Gráfica <select id="gridGraphSelect"><option value="area_over_time">Area celular</option>
+<option value="normalized_area_over_time">Area normalizada</option>
+<option value="sphericity_over_time">Esfericidad</option>
+<option value="normalized_sphericity_over_time">Esfericidad normalizada</option>
+<option value="survival_curve">Curva de supervivencia</option>
+<option value="velocity_mean_over_time">Velocidad media</option>
+<option value="velocity_position_2d_over_time">Desplazamiento acumulado</option></select></label></div>
+      <h2 class="section-title">Visualización métricas por experimento</h2>
+      <div class="experiment-grid">
+            <article class="graph-card experiment-card">
+              <h3>EXP10.1 - 1% CO2</h3>
+              <div id="grid_EXP10_1"></div>
+            </article>
+            
+            <article class="graph-card experiment-card">
+              <h3>EXP10.3 - 1% CO2</h3>
+              <div id="grid_EXP10_3"></div>
+            </article>
+            
+            <article class="graph-card experiment-card">
+              <h3>EXP11.2 - 5% CO2</h3>
+              <div id="grid_EXP11_2"></div>
+            </article>
+            
+            <article class="graph-card experiment-card">
+              <h3>EXP11.3 - 5% CO2</h3>
+              <div id="grid_EXP11_3"></div>
+            </article>
+            </div>
+    </section>
+
+  </main>
+  <script>
+
+    const graphs = [{"label": "Area media", "co2_1pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_1pct/stats_co2_1pct_0000_area_mean_over_time.html", "co2_5pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_5pct/stats_co2_5pct_0000_area_mean_over_time.html"}, {"label": "Area normalizada media", "co2_1pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_1pct/stats_co2_1pct_0000_normalized_area_mean_over_time.html", "co2_5pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_5pct/stats_co2_5pct_0000_normalized_area_mean_over_time.html"}, {"label": "Esfericidad media", "co2_1pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_1pct/stats_co2_1pct_0000_sphericity_mean_over_time.html", "co2_5pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_5pct/stats_co2_5pct_0000_sphericity_mean_over_time.html"}, {"label": "Esfericidad normalizada media", "co2_1pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_1pct/stats_co2_1pct_0000_normalized_sphericity_mean_over_time.html", "co2_5pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_5pct/stats_co2_5pct_0000_normalized_sphericity_mean_over_time.html"}, {"label": "Velocidad media", "co2_1pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_1pct/stats_co2_1pct_0000_velocity_mean_over_time.html", "co2_5pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_5pct/stats_co2_5pct_0000_velocity_mean_over_time.html"}, {"label": "Curva de supervivencia", "co2_1pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_1pct/co2_1pct_survival_curve.html", "co2_5pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_5pct/co2_5pct_survival_curve.html"}, {"label": "Desplazamiento acumulado", "co2_1pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_1pct/co2_1pct_cumulative_displacement.html", "co2_5pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_5pct/co2_5pct_cumulative_displacement.html"}, {"label": "AUC supervivencia", "co2_1pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_1pct/stats_co2_1pct_0000_survival_auc.html", "co2_5pct": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/graphs_html/co2_5pct/stats_co2_5pct_0000_survival_auc.html"}];
+    const zeroHourVideoSeconds = 0.5;
+    const timeStepHours = 0.5;
+    const videos = Array.from(document.querySelectorAll('video'));
+    const playPause = document.getElementById('playPause');
+    const slider = document.getElementById('timeSlider');
+    const timeReadout = document.getElementById('timeReadout');
+    const speedSelect = document.getElementById('speedSelect');
+    const graphSelect = document.getElementById('graphSelect');
+    const graph1 = document.getElementById('graph1');
+    const graph5 = document.getElementById('graph5');
+    let commonVideoDuration = 1, biologicalDuration = 1, isSyncing = false;
+    function finiteDurations() { return videos.map(v => v.duration).filter(Number.isFinite).filter(v => v > 0); }
+    function snapBioHours(hours) { const raw = Math.max(0, Number(hours)||0); return Math.min(biologicalDuration, Math.round(raw / timeStepHours) * timeStepHours); }
+    function bioHoursToVideoSeconds(hours) { const h = snapBioHours(hours); if (h <= 0) return 0; return Math.min(h + zeroHourVideoSeconds, Math.max(0, commonVideoDuration - 0.03)); }
+    function videoSecondsToBioHours(seconds) { return snapBioHours(Math.max(0, seconds - zeroHourVideoSeconds)); }
+    function updateReadout(hours) { timeReadout.textContent = `${Math.max(0, hours).toFixed(1)} h`; }
+    function updateDuration() {
+      const durations = finiteDurations();
+      if (durations.length) {
+        commonVideoDuration = Math.min(...durations);
+        biologicalDuration = Math.max(0, commonVideoDuration - zeroHourVideoSeconds);
+        biologicalDuration = Math.floor(biologicalDuration / timeStepHours) * timeStepHours;
+        slider.max = biologicalDuration.toFixed(1);
+      }
+    }
+    function syncToBioHours(hours) {
+      const snapped = snapBioHours(hours);
+      const seconds = bioHoursToVideoSeconds(snapped);
+      isSyncing = true;
+      for (const video of videos) {
+        if (Number.isFinite(video.duration)) video.currentTime = Math.min(seconds, Math.max(0, video.duration - 0.03));
+      }
+      isSyncing = false;
+      slider.value = snapped.toFixed(1);
+      updateReadout(snapped);
+    }
+    for (const video of videos) {
+      video.addEventListener('loadedmetadata', () => { updateDuration(); syncToBioHours(Number(slider.value)); });
+      video.addEventListener('timeupdate', () => {
+        if (isSyncing || video.paused) return;
+        const h = videoSecondsToBioHours(video.currentTime);
+        slider.value = h.toFixed(1);
+        updateReadout(h);
+      });
+      video.addEventListener('play', () => { playPause.textContent = 'Pausar'; });
+      video.addEventListener('pause', () => {
+        if (videos.every(v => v.paused)) playPause.textContent = 'Reproducir';
+      });
+    }
+    playPause.addEventListener('click', async () => {
+      if (videos.some(v => !v.paused)) {
+        videos.forEach(v => v.pause());
+        playPause.textContent = 'Reproducir';
+      } else {
+        for (const video of videos) video.playbackRate = Number(speedSelect.value);
+        for (const video of videos) await video.play().catch(() => {});
+        playPause.textContent = 'Pausar';
+      }
+    });
+    speedSelect.addEventListener('change', () => {
+      for (const video of videos) video.playbackRate = Number(speedSelect.value);
+    });
+    slider.addEventListener('input', () => syncToBioHours(slider.value));
+    document.getElementById('backHour').addEventListener('click', () => syncToBioHours(Number(slider.value) - 1));
+    document.getElementById('forwardHour').addEventListener('click', () => syncToBioHours(Number(slider.value) + 1));
+    function renderGraph(index) {
+      const graph = graphs[index] || graphs[0];
+      graph1.innerHTML = graph.co2_1pct ? `<iframe title="${graph.label} 1% CO2" src="${graph.co2_1pct}" scrolling="no"></iframe>` : '<div class="missing-graph">Sin gráfica</div>';
+      graph5.innerHTML = graph.co2_5pct ? `<iframe title="${graph.label} 5% CO2" src="${graph.co2_5pct}" scrolling="no"></iframe>` : '<div class="missing-graph">Sin gráfica</div>';
+    }
+    graphSelect.addEventListener('change', () => renderGraph(Number(graphSelect.value)));
+    renderGraph(0);
+    updateReadout(0);
+    const individualGraphData = {"EXP10.1": {"area_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.1/area_over_time.html", "normalized_area_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.1/normalized_area_over_time.html", "sphericity_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.1/sphericity_over_time.html", "normalized_sphericity_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.1/normalized_sphericity_over_time.html", "survival_curve": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.1/survival_curve.html", "velocity_mean_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.1/velocity_mean_over_time.html", "velocity_position_2d_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.1/velocity_position_2d_over_time.html"}, "EXP10.3": {"area_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.3/area_over_time.html", "normalized_area_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.3/normalized_area_over_time.html", "sphericity_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.3/sphericity_over_time.html", "normalized_sphericity_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.3/normalized_sphericity_over_time.html", "survival_curve": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.3/survival_curve.html", "velocity_mean_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.3/velocity_mean_over_time.html", "velocity_position_2d_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP10.3/velocity_position_2d_over_time.html"}, "EXP11.2": {"area_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.2/area_over_time.html", "normalized_area_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.2/normalized_area_over_time.html", "sphericity_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.2/sphericity_over_time.html", "normalized_sphericity_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.2/normalized_sphericity_over_time.html", "survival_curve": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.2/survival_curve.html", "velocity_mean_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.2/velocity_mean_over_time.html", "velocity_position_2d_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.2/velocity_position_2d_over_time.html"}, "EXP11.3": {"area_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.3/area_over_time.html", "normalized_area_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.3/normalized_area_over_time.html", "sphericity_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.3/sphericity_over_time.html", "normalized_sphericity_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.3/normalized_sphericity_over_time.html", "survival_curve": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.3/survival_curve.html", "velocity_mean_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.3/velocity_mean_over_time.html", "velocity_position_2d_over_time": "https://cdn.jsdelivr.net/gh/JorgeDcare/TFM@main/assets/individual_graphs_html/EXP11.3/velocity_position_2d_over_time.html"}};
+    const individualExperiments = ["EXP10.1", "EXP10.3", "EXP11.2", "EXP11.3"];
+    const gridSelect = document.getElementById('gridGraphSelect');
+    function renderIndividualGrid() {
+      const graphId = gridSelect.value;
+      for (const experiment of individualExperiments) {
+        const target = document.getElementById(`grid_${experiment.replace('.', '_')}`);
+        const path = individualGraphData[experiment] && individualGraphData[experiment][graphId];
+        target.innerHTML = path ? `<iframe title="${experiment} ${graphId}" src="${path}" scrolling="no"></iframe>` : '<div class="missing-graph">Sin gráfica</div>';
+      }
+    }
+    gridSelect.addEventListener('change', renderIndividualGrid);
+    renderIndividualGrid();
+    function showView(viewId) {
+      document.querySelectorAll('.view-section').forEach((section) => {
+        section.hidden = section.id !== viewId;
+      });
+      document.querySelectorAll('.view-button').forEach((button) => {
+        const active = button.dataset.viewTarget === viewId;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.querySelectorAll('.view-button').forEach((button) => {
+      button.addEventListener('click', () => showView(button.dataset.viewTarget));
+    });
+    showView('resumen-global');
+
+  </script>
+</body>
+</html>
